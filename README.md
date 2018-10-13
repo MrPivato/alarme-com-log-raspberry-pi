@@ -8,7 +8,7 @@
 
 [Link código](python_code/script.py)
 
-'''python
+```python
 #importa modulos necessarios
 import RPi.GPIO as GPIO # da GPIO
 import time             # do tempo
@@ -72,8 +72,7 @@ try:
 except KeyboardInterrupt:
     # limpa GPIO
     GPIO.cleanup()
-
-'''
+```
 
 
 
