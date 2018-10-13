@@ -2,16 +2,12 @@
 import RPi.GPIO as GPIO # da GPIO
 import time             # do tempo
 from datetime import datetime # da data
-import signal           # eventos assincronos
-import sys              # info sobre o interpretador
-import logging
+import signal           # de eventos assincronos
+import sys              # da info sobre o interpretador
+import logging          # para criar arquivos de log
 
-# limpa GPIO caso necessario
-def close(signal, frame):
-    GPIO.cleanup() 
-    sys.exit(0)
-
-signal.signal(signal.SIGINT, close)
+# dir e nome onde o arquivo de log sera criado
+nameLogFile = "/home/pi/uploadGDrive/log_movimentos.txt"
 
 # usar os pinos numerados
 GPIO.setmode(GPIO.BCM)
@@ -20,17 +16,14 @@ GPIO.setmode(GPIO.BCM)
 pinTrig = 14
 pinEcho = 15
 pinBuzz = 18
-pinMicrophone = 23
 
 # seta os pinos de input e output
 GPIO.setup(pinTrig, GPIO.OUT)
 GPIO.setup(pinBuzz, GPIO.OUT)
 GPIO.setup(pinEcho, GPIO.IN)
-GPIO.setup(pinMicrophone, GPIO.IN)
 
 # function para criar logs
 def createLog(dataHora):
-    nameLogFile = "log_movimentos.txt"
     logging.basicConfig(level = logging.INFO, filename = nameLogFile)
     msg = dataHora.strftime("Movimento detectado %Hhrs:%Mmin:%Sseg_%d-%m-%Y")
     logging.warning(msg)
@@ -66,4 +59,5 @@ try:
             GPIO.output(pinBuzz, False)
 
 except KeyboardInterrupt:
+    # limpa GPIO
     GPIO.cleanup()
