@@ -59,6 +59,18 @@ try:
             stopTime = time.time()
 
         timeElapsed = stopTime - startTime # T2 - T1
+        distance = (timeElapsed * 34300) / 2
+
+        distanceMsg = "Distancia: %.1f cm" % distance
+
+        print (distanceMsg)
+
+        if distance <= detectionRange:
+            dataHora = datetime.now()
+            createLog(dataHora)
+            GPIO.output(buzzPin, True)
+            time.sleep(1.00)
+            GPIO.output(buzzPin, False)
 
 except KeyboardInterrupt:
     GPIO.cleanup()
